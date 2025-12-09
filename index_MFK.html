@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO METADATA -->
+    <meta name="description" content="Portfolio of Dr. Marco-Felipe King, Lecturer in Building Engineering & Infection Transmission. Director of WPE Research Group. Researching CFD, Indoor Air Quality, and COVID-19 safety.">
+    <meta name="keywords" content="Marco-Felipe King, Leeds, CFD, Infection Control, Indoor Air Quality, SAGE, Bioaerosols, WPE Leeds">
+    <meta name="author" content="Dr. Marco-Felipe King">
+    <meta property="og:title" content="Dr. Marco-Felipe King | Director WPE Leeds">
+    <meta property="og:image" content="images/MFK_2025.jpg">
+
+    <title>Dr. Marco-Felipe King | Director WPE & Lecturer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Apache ECharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --accent-light: #63b3ed;
+            --text: #1a202c;
+            --text-light: #4a5568;
+            --text-muted: #718096;
+            --bg: #ffffff;
+            --bg-alt: #f7fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary: #90cdf4;
+            --primary-light: #63b3ed;
+            --accent: #63b3ed;
+            --accent-light: #90cdf4;
+            --text: #f7fafc;
+            --text-light: #e2e8f0;
+            --text-muted: #a0aec0;
+            --bg: #0f1729;
+            --bg-alt: #1a202c;
+            --bg-card: #1e2a3a;
+            --border: #2d3748;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: var(--transition); }
+
+        /* Navigation */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid var(--border); backdrop-filter: blur(10px); }
+        [data-theme="dark"] nav { background: rgba(15, 23, 41, 0.9); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: var(--transition); position: relative; }
+        .nav-links a:hover { color: var(--accent); }
+        .theme-toggle { background: var(--bg-alt); border: 1px solid var(--border); padding: 0.5rem; border-radius: 50%; cursor: pointer; color: var(--text); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; color: var(--text); cursor: pointer; }
+
+        /* Hero Section */
+        .hero { min-height: 90vh; display: flex; align-items: center; padding: 8rem 2rem 4rem; background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%); position: relative; overflow: hidden; }
+        .hero-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; color: var(--primary); }
+        .hero-content .subtitle { font-size: 1.25rem; color: var(--accent); margin-bottom: 1.5rem; font-weight: 500; }
+        .hero-content p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; max-width: 500px; }
+        
+        .hero-stats { display: flex; gap: 3rem; margin-bottom: 2rem; }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--primary); display: block; text-align: center; }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; text-align: center; }
+        
+        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.875rem 1.75rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: var(--transition); cursor: pointer; border: none; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .btn-secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+        .hero-image-wrapper { position: relative; width: 400px; height: 400px; margin: 0 auto; }
+        .hero-image-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: var(--shadow-lg); }
+
+        /* LOGO STRIP STYLES */
+        .logo-strip { background: var(--bg); padding: 2rem 0; border-bottom: 1px solid var(--border); }
+        .logo-text { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .logo-grid { display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap; }
+        .org-logo { height: 60px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.7; transition: all 0.3s ease; }
+        .logo-grid:hover .org-logo { filter: grayscale(0%); opacity: 1; }
+        [data-theme="dark"] .org-logo { filter: grayscale(100%) invert(1); }
+        [data-theme="dark"] .logo-grid:hover .org-logo { filter: invert(0); }
+
+        /* WPE LEADERSHIP SECTION */
+        .wpe-section { background: var(--primary); color: white; position: relative; overflow: hidden; }
+        .wpe-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415-.828-.828-.828.828-1.415-1.415.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828zM22.485 0l.83.828-1.415 1.415-.828-.828-.828.828-1.415-1.415.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828zM0 22.485l.828.83-1.415 1.415-.828-.828-.828.828L-3.658 22.485l.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828zM0 54.627l.828.83-1.415 1.415-.828-.828-.828.828L-3.658 54.627l.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"); }
+        .wpe-header { text-align: center; margin-bottom: 3rem; position: relative; z-index: 2; }
+        .wpe-header h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; color: white; }
+        .wpe-header p { opacity: 0.9; max-width: 700px; margin: 0 auto; font-size: 1.1rem; }
+        .wpe-stats { display: flex; justify-content: center; gap: 3rem; margin: 2rem 0; }
+        .wpe-stat { text-align: center; background: rgba(255,255,255,0.1); padding: 1rem 2rem; border-radius: 12px; backdrop-filter: blur(5px); }
+        .wpe-stat-num { display: block; font-size: 2rem; font-weight: 700; color: var(--accent-light); }
+        
+        .wpe-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; position: relative; z-index: 2; }
+        .wpe-card { background: rgba(255,255,255,0.1); padding: 1.5rem 1rem; border-radius: 12px; text-align: center; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
+        .wpe-card:hover { background: rgba(255,255,255,0.2); transform: translateY(-5px); }
+        .wpe-card i { font-size: 2rem; margin-bottom: 1rem; color: var(--accent-light); }
+        .wpe-card h3 { font-size: 1rem; margin-bottom: 0.5rem; color: white; }
+        .wpe-card p { font-size: 0.8rem; opacity: 0.8; line-height: 1.4; }
+
+        /* LATEST ACTIVITY STYLES */
+        .news-banner { background: var(--bg-alt); padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+        .news-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; gap: 2rem; }
+        .news-label { font-weight: 700; color: var(--accent); text-transform: uppercase; font-size: 0.85rem; white-space: nowrap; }
+        .news-item { display: flex; align-items: center; gap: 1rem; color: var(--text-light); font-size: 0.95rem; }
+        .news-date { background: var(--bg-card); border: 1px solid var(--border); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+
+        /* Sections General */
+        section { padding: 6rem 2rem; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .section-divider { width: 60px; height: 4px; background: var(--accent); margin: 1rem auto 0; border-radius: 2px; }
+
+        /* HBN & About */
+        .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; }
+        .hbn-card { background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border); border-left: 5px solid #2ecc71; box-shadow: var(--shadow); margin-top: 1rem; }
+        .hbn-card h4 { color: var(--text); font-size: 1.2rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .hbn-card-role { display: inline-block; background: rgba(46, 204, 113, 0.15); color: #27ae60; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem; }
+        .hbn-link { color: var(--accent); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; }
+
+        /* MEDIA / CFD VIDEOS SECTION */
+        .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .video-card { background: var(--bg-card); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-caption { padding: 1.5rem; }
+        .video-caption h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .video-caption p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* PHD TEAM GRID */
+        .team-section { background: var(--bg-alt); }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .team-member { text-align: center; background: var(--bg-card); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border); transition: var(--transition); }
+        .team-member:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+        .member-photo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 3px solid var(--bg-alt); box-shadow: var(--shadow); }
+        .member-name { font-weight: 600; color: var(--text); font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .member-topic { font-size: 0.85rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; }
+        .member-bio { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* Vis Section */
+        .vis-container { background: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); box-shadow: var(--shadow); height: 500px; position: relative; }
+        .vis-title { position: absolute; top: 1.5rem; left: 1.5rem; z-index: 10; font-size: 1.1rem; font-weight: 600; color: var(--text-light); background: rgba(255,255,255,0.8); padding: 0.25rem 0.5rem; border-radius: 4px; }
+        
+        /* Contact/Footer */
+        .contact { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; }
+        .contact-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 16px; padding: 2rem; text-align: center; }
+        footer { background: var(--bg-alt); padding: 3rem 2rem; text-align: center; border-top: 1px solid var(--border); }
+        .footer-social a { width: 45px; height: 45px; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text); margin: 0 0.5rem; text-decoration: none; }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .wpe-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .hero-container, .about-grid, .media-grid, .vis-grid { grid-template-columns: 1fr; }
+            .wpe-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-image-wrapper { width: 300px; height: 300px; }
+            .nav-links { display: none; } 
+            .mobile-menu-btn { display: block; }
+            .news-container { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+        @media (max-width: 480px) {
+            .wpe-grid { grid-template-columns: 1fr; }
+            .wpe-stats { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dr. Marco-Felipe King",
+        "jobTitle": "Lecturer in Building Engineering & Infection Transmission",
+        "affiliation": {
+            "@type": "Organization",
+            "name": "University of Leeds"
+        },
+        "url": "https://marcofelipeking.com",
+        "sameAs": [
+            "https://scholar.google.com/citations?user=avLSE_oAAAAJ&hl=en",
+            "https://twitter.com/yourhandle",
+            "https://www.linkedin.com/in/yourprofile"
+        ],
+        "knowsAbout": ["Computational Fluid Dynamics", "Infection Control", "Indoor Air Quality", "Bioaerosols"],
+        "alumniOf": "University of Leeds"
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">MFK</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#wpe">Leadership</a></li>
+                <li><a href="#media">Visuals</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#network">Network</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Dr. Marco-Felipe King</h1>
+                <p class="subtitle">Lecturer in Building Engineering & Infection Transmission</p>
+                <p>Pioneering research at the intersection of computational fluid dynamics, indoor air quality, and infection control to create healthier built environments.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">1645+</span>
+                        <span class="stat-label">Citations</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">22</span>
+                        <span class="stat-label">h-index</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">45+</span>
+                        <span class="stat-label">Publications</span>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Contact Me
+                    </a>
+                    <a href="cv/MFK_CV_2025.pdf" target="_blank" class="btn btn-secondary">
+                        <i class="fas fa-file-pdf"></i> Download CV
+                    </a>
+                    <a href="https://phd.leeds.ac.uk" target="_blank" class="btn btn-secondary" style="border:none; color: var(--accent);">
+                        <i class="fas fa-user-graduate"></i> PhD Opportunities
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="hero-image-wrapper">
+                    <img src="images/MFK_2025.jpg" alt="Dr. Marco-Felipe King">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST BAR: Logos Section -->
+    <div class="logo-strip">
+        <div class="section-container">
+            <p class="logo-text">Research affiliated with:</p>
+            <div class="logo-grid">
+                <!-- Ensure you save these images in your folder -->
+                <img src="images/leeds_logo.png" alt="University of Leeds" class="org-logo" title="University of Leeds">
+                <img src="images/wpe_logo.png" alt="WPE Leeds" class="org-logo" title="Water, Public Health & Environmental Engineering">
+                <img src="images/ukieg_logo.png" alt="UKIEG" class="org-logo" title="UK Indoor Environments Group">
+                <img src="images/hbn_logo.png" alt="Health Buildings Network" class="org-logo" title="Health Buildings Network">
+            </div>
+        </div>
+    </div>
+
+    <!-- NEWS TICKER -->
+    <div class="news-banner">
+        <div class="news-container">
+            <span class="news-label">Latest Activity:</span>
+            <div class="news-item">
+                <span class="news-date">Oct 2025</span>
+                <span>Keynote Speaker at Indoor Air Quality Conference (Milan)</span>
+            </div>
+            <div class="news-item" style="display:none;">
+                <span class="news-date">Sep 2025</span>
+                <span>New paper published in Building & Environment on Far-UVC</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>About Me</h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-content">
+                    <p>I am a Lecturer in Building Engineering and Infection Transmission at the School of Civil Engineering, University of Leeds. My research focuses on understanding how infectious diseases spread through the built environment—via air and surfaces—and developing evidence-based strategies to reduce transmission risks.</p>
+                    
+                    <!-- HBN CARD -->
+                    <div class="hbn-card">
+                        <h4><i class="fas fa-hospital-alt" style="color:#27ae60;"></i> Health Buildings Network Leeds</h4>
+                        <span class="hbn-card-role">Co-Director</span>
+                        <p>I recently discussed the future of hospital design and infection resilience in an exclusive interview with HBN Leeds.</p>
+                        <a href="https://www.healthybuildingsnetwork.org/blog/interview_marco.html" target="_blank" class="hbn-link">
+                            Read Full Interview <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="about-sidebar">
+                    <!-- Key Roles Sidebar -->
+                    <div class="highlight-item" style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                        <i class="fas fa-users" style="color:var(--accent); font-size:1.5rem;"></i>
+                        <div><h4>WPE Director</h4><p style="font-size:0.9rem; color:var(--text-muted);">Water, Public Health & Env. Eng.</p></div>
+                    </div>
+                    <div class="highlight-item" style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                        <i class="fas fa-network-wired" style="color:var(--accent); font-size:1.5rem;"></i>
+                        <div><h4>UKIEG Committee</h4><p style="font-size:0.9rem; color:var(--text-muted);">Webinar Coordinator</p></div>
+                    </div>
+                    <div class="highlight-item" style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+                        <i class="fas fa-award" style="color:var(--accent); font-size:1.5rem;"></i>
+                        <div><h4>FHEA</h4><p style="font-size:0.9rem; color:var(--text-muted);">Fellow of HE Academy</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: WPE LEADERSHIP SECTION -->
+    <section class="wpe-section" id="wpe">
+        <div class="section-container">
+            <div class="wpe-header">
+                <h2>Academic Leadership</h2>
+                <p><strong>Director</strong> of the Water, Public Health & Environmental Engineering (WPE) Research Group. Based in the School of Civil Engineering at the University of Leeds.</p>
+            </div>
+            
+            <div class="wpe-stats">
+                <div class="wpe-stat">
+                    <span class="wpe-stat-num">25</span>
+                    <span>Academics</span>
+                </div>
+                <div class="wpe-stat">
+                    <span class="wpe-stat-num">50</span>
+                    <span>PhD Researchers</span>
+                </div>
+                <div class="wpe-stat">
+                    <span class="wpe-stat-num">2003</span>
+                    <span>Est.</span>
+                </div>
+            </div>
+
+            <div class="wpe-grid">
+                <div class="wpe-card">
+                    <i class="fas fa-wind"></i>
+                    <h3>Indoor Air</h3>
+                    <p>Researching pollutants, ventilation systems, and health impacts of indoor environments.</p>
+                </div>
+                <div class="wpe-card">
+                    <i class="fas fa-recycle"></i>
+                    <h3>BioResources</h3>
+                    <p>Developing sustainable technologies for resource recovery and circular economy.</p>
+                </div>
+                <div class="wpe-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Public Health</h3>
+                    <p>Addressing environmental health challenges with evidence-based solutions.</p>
+                </div>
+                <div class="wpe-card">
+                    <i class="fas fa-toilet"></i>
+                    <h3>Sanitation</h3>
+                    <p>Creating sustainable sanitation systems for improved global health outcomes.</p>
+                </div>
+                <div class="wpe-card">
+                    <i class="fas fa-water"></i>
+                    <h3>Water</h3>
+                    <p>Water pathways and engineering solutions for global challenges.</p>
+                </div>
+            </div>
+            
+            <div style="text-align:center; margin-top:2rem;">
+                <a href="https://wpeleeds.org" target="_blank" class="btn" style="background:white; color:var(--primary);">Visit wpeleeds.org</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEDIA / CFD VIDEOS SECTION -->
+    <section id="media">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Research in Motion</h2>
+                <p>Visualising invisible risks through Computational Fluid Dynamics (CFD)</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="media-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <!-- Replace with your actual YouTube ID -->
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Hospital Ward Airflow" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-caption">
+                        <h3><i class="fas fa-wind"></i> Hospital Ward Airflow</h3>
+                        <p>Simulating bioaerosol transport in a Nightingale ward setting to optimize ventilation strategies.</p>
+                    </div>
+                </div>
+                
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <!-- Replace with your actual YouTube ID -->
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Cough Simulation" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-caption">
+                        <h3><i class="fas fa-virus"></i> Cough Plume Dynamics</h3>
+                        <p>High-fidelity simulation of particle dispersion from a cough in a poorly ventilated office space.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NETWORK VISUALIZATION -->
+    <section class="vis-section" id="network">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Collaborative Network</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;" class="vis-grid">
+                <div class="vis-container">
+                    <div class="vis-title"><i class="fas fa-cloud"></i> Topics</div>
+                    <div id="wordCloudChart" style="width: 100%; height: 100%;"></div>
+                </div>
+                <div class="vis-container">
+                    <div class="vis-title"><i class="fas fa-project-diagram"></i> Collaborators</div>
+                    <div id="networkChart" style="width: 100%; height: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section class="team-section" id="team">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>PhD Research Group</h2>
+                <p>Mentoring the next generation of engineers and scientists</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="team-grid">
+                <!-- Student 1 -->
+                <div class="team-member">
+                    <!-- Use images/student1.jpg -->
+                    <img src="images/student_placeholder.jpg" alt="Student Name" class="member-photo">
+                    <h3 class="member-name">Sarah Jenkins</h3>
+                    <p class="member-topic">PhD Candidate</p>
+                    <p class="member-bio">Modelling Far-UVC inactivation rates in complex airflows.</p>
+                </div>
+                <!-- Student 2 -->
+                <div class="team-member">
+                    <img src="images/student_placeholder.jpg" alt="Student Name" class="member-photo">
+                    <h3 class="member-name">David Chen</h3>
+                    <p class="member-topic">PhD Candidate</p>
+                    <p class="member-bio">Surface contamination networks in airport terminals.</p>
+                </div>
+                <!-- Student 3 -->
+                <div class="team-member">
+                    <img src="images/student_placeholder.jpg" alt="Student Name" class="member-photo">
+                    <h3 class="member-name">Dr. Elena Ross</h3>
+                    <p class="member-topic">Post-Doc Researcher</p>
+                    <p class="member-bio">HECOIRA project lead on hospital ventilation design.</p>
+                </div>
+                <!-- Student 4 -->
+                <div class="team-member">
+                    <img src="images/student_placeholder.jpg" alt="Student Name" class="member-photo">
+                    <h3 class="member-name">James Smith</h3>
+                    <p class="member-topic">PhD Candidate</p>
+                    <p class="member-bio">Lattice Boltzmann methods for urban pollutant dispersion.</p>
+                </div>
+            </div>
+        </div>
+                <!-- Student FAQ Accordion -->
+        <div class="faq-container" style="max-width: 800px; margin: 3rem auto 0;">
+            <h3 style="text-align:center; margin-bottom:1.5rem; color:var(--primary);">Information for Prospective PhDs</h3>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Are you currently accepting PhD students?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, I am looking for motivated students for the 2025/26 academic year. I am particularly interested in candidates with backgrounds in Fluid Dynamics, Applied Mathematics, or Civil Engineering.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What technical skills do I need?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>My research is computationally intensive. Experience with CFD (OpenFOAM, Ansys) or programming (Python, C++, Matlab) is highly desirable. However, I also supervise experimental projects where lab skills are prioritised.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Is funding available?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Funding is competitive. I support applications for EPSRC DTP scholarships and University of Leeds research scholarships. If you have self-funding or government sponsorship, please state this clearly in your initial email.</p>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .faq-item { border-bottom: 1px solid var(--border); }
+            .faq-question { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; background: none; border: none; font-size: 1rem; font-weight: 600; color: var(--text); cursor: pointer; text-align: left; }
+            .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: var(--text-light); font-size: 0.95rem; }
+            .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 1rem; }
+            .faq-item.active i { transform: rotate(180deg); }
+        </style>
+
+        <script>
+            document.querySelectorAll('.faq-question').forEach(button => {
+                button.addEventListener('click', () => {
+                    const item = button.parentElement;
+                    item.classList.toggle('active');
+                });
+            });
+        </script>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Get in Touch</h2>
+                <p>Interested in collaboration, supervision, or just want to chat about healthy buildings?</p>
+                <div class="section-divider" style="background: rgba(255,255,255,0.5);"></div>
+            </div>
+            <div style="display:flex; justify-content:center; gap:2rem; flex-wrap:wrap;">
+                <div class="contact-card">
+                    <i class="fas fa-envelope" style="font-size:2rem; margin-bottom:1rem;"></i>
+                    <h3>Email</h3>
+                    <a href="mailto:m.f.king@leeds.ac.uk" style="color:white;">m.f.king@leeds.ac.uk</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt" style="font-size:2rem; margin-bottom:1rem;"></i>
+                    <h3>Office</h3>
+                    <p>School of Civil Engineering<br>University of Leeds</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-social" style="display:flex; justify-content:center; margin-bottom:1rem;">
+            <a href="#"><i class="fas fa-graduation-cap"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <!-- Media Kit Mini-Section -->
+        <div style="background: var(--bg-card); border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 4rem;">
+            <div class="section-container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:2rem;">
+                <div>
+                    <h4 style="color:var(--primary); margin-bottom:0.5rem;">Media & Event Organisers</h4>
+                    <p style="font-size:0.9rem; color:var(--text-muted);">Need materials for a conference programme or press release?</p>
+                </div>
+                <div style="display:flex; gap:1rem;">
+                    <a href="images/MFK_HighRes.jpg" download class="btn btn-secondary" style="font-size:0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fas fa-camera"></i> High-Res Photo
+                    </a>
+                    <a href="cv/MFK_Bio_Short.txt" download class="btn btn-secondary" style="font-size:0.85rem; padding: 0.5rem 1rem;">
+                        <i class="fas fa-file-alt"></i> Short Bio (TXT)
+                    </a>
+                </div>
+            </div>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem;">© 2025 Dr. Marco-Felipe King.</p>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        // Theme & Mobile Menu Logic
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            themeToggle.querySelector('i').className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            if(networkChart) { networkChart.dispose(); wordCloudChart.dispose(); initCharts(); }
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if(window.innerWidth <= 768) {
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.background = 'var(--bg)';
+                navLinks.style.padding = '1rem';
+            }
+        });
+
+        // Charts Initialization
+        let networkChart, wordCloudChart;
+        function initCharts() {
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            const colorText = isDark ? '#e2e8f0' : '#1a202c';
+
+            const netDom = document.getElementById('networkChart');
+            if(netDom) {
+                networkChart = echarts.init(netDom);
+                networkChart.setOption({
+                    tooltip: {},
+                    series: [{
+                        type: 'graph', layout: 'force',
+                        data: [
+                            { name: 'MF King', symbolSize: 60, itemStyle:{color:'#3182ce'} },
+                            { name: 'CJ Noakes', symbolSize: 50, itemStyle:{color:'#e53e3e'} },
+                            { name: 'PA Sleigh', symbolSize: 40, itemStyle:{color:'#38a169'} },
+                            { name: 'LA Fletcher', symbolSize: 40, itemStyle:{color:'#d69e2e'} },
+                            { name: 'CA Gilkeson', symbolSize: 35, itemStyle:{color:'#805ad5'} }
+                        ],
+                        links: [
+                            { source: 'MF King', target: 'CJ Noakes' },
+                            { source: 'MF King', target: 'PA Sleigh' },
+                            { source: 'MF King', target: 'LA Fletcher' },
+                            { source: 'MF King', target: 'CA Gilkeson' },
+                            { source: 'CJ Noakes', target: 'PA Sleigh' }
+                        ],
+                        roam: true,
+                        label: { show: true, position: 'right', color: colorText },
+                        force: { repulsion: 300 }
+                    }]
+                });
+            }
+
+            const wordDom = document.getElementById('wordCloudChart');
+            if(wordDom) {
+                wordCloudChart = echarts.init(wordDom);
+                wordCloudChart.setOption({
+                    xAxis: { show: false }, yAxis: { show: false },
+                    series: [{
+                        type: 'scatter',
+                        symbolSize: function (data) { return data[2]; },
+                        data: [
+                            { value: [50, 50, 80], name: 'CFD', itemStyle:{color:'#3182ce'} },
+                            { value: [30, 70, 70], name: 'Infection', itemStyle:{color:'#e53e3e'} },
+                            { value: [70, 30, 60], name: 'Ventilation', itemStyle:{color:'#38a169'} },
+                            { value: [20, 30, 50], name: 'Bioaerosols', itemStyle:{color:'#d69e2e'} },
+                            { value: [80, 70, 50], name: 'Hospitals', itemStyle:{color:'#805ad5'} }
+                        ],
+                        label: { show: true, formatter: function(p){return p.data.name}, color: 'white', fontWeight: 'bold' }
+                    }]
+                });
+            }
+        }
+        window.addEventListener('load', initCharts);
+        window.addEventListener('resize', () => { networkChart && networkChart.resize(); wordCloudChart && wordCloudChart.resize(); });
+    </script>
+</body>
+</html>
