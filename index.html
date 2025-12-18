@@ -749,7 +749,7 @@
         "url": "https://marcofelipeking.com",
         "sameAs": [
             "https://scholar.google.com/citations?user=avLSE_oAAAAJ&hl=en",
-            "https://twitter.com/yourhandle",
+            "https://twitter.com/MarcoFelipeKing",
             "https://www.linkedin.com/in/yourprofile"
         ],
         "knowsAbout": ["Computational Fluid Dynamics", "Infection Control", "Indoor Air Quality", "Bioaerosols"],
@@ -1627,111 +1627,245 @@ King Marco-Felipe,Hall Ian,2,2024`;
     cards.forEach(card => observer.observe(card));
 
 /* ========================================
-   PUBLICATIONS FUNCTIONALITY
+   PUBLICATIONS - JSON + Dynamic Rendering
    ======================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // ---- Abstract Toggle ----
-    document.querySelectorAll('.abstract-toggle').forEach(button => {
-        button.addEventListener('click', () => {
-            const abstractDiv = button.parentElement;
-            abstractDiv.classList.toggle('open');
+    const pubList = document.getElementById('pubList');
+    const pubFilters = document.getElementById('pubFilters');
+    const pubLoading = document.getElementById('pubLoading');
+    const pubUpdated = document.getElementById('pubUpdated');
+    const pubSearch = document.getElementById('pubSearch');
+    
+    let publicationsData = [];
+    
+    // ---- THIS IS THE KEY PART: Fetch the JSON ----
+    fetch('data/publications.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to load publications');
+            return response.json();
+        })
+        .then(data => {
+            publicationsData = data.publications;
+            renderFilters(data.filterCategories);
+            renderPublications(publicationsData);
+            
+            if (data.lastUpdated) {
+                pubUpdated.textContent = `Last updated: ${formatDate(data.lastUpdated)}`;
+            }
+            
+            pubLoading.classList.add('hidden');
+        })
+        .catch(error => {
+            console.error('Error loading publications:', error);
+            pubLoading.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to load publications';
         });
-    });
-
-    // ---- Filter Buttons ----
-    const filterBtns = document.querySelectorAll('.pub-filter-btn');
-    const pubCards = document.querySelectorAll('.pub-card');
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active button
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const filter = btn.dataset.filter;
-
-            pubCards.forEach(card => {
-                if (filter === 'all') {
-                    card.classList.remove('hidden');
-                } else {
-                    const tags = card.dataset.tags || '';
-                    if (tags.includes(filter)) {
-                        card.classList.remove('hidden');
-                    } else {
-                        card.classList.add('hidden');
+    
+    // ---- Render Filter Buttons ----
+    function renderFilters(categories) {
+        pubFilters.innerHTML = categories.map((cat, index) => `
+            <button class="pub-filter-btn ${index === 0 ? 'active' : ''}" data-filter="${cat.id}">
+                ${cat.label}
+            </button>
+        `).join('');
+        
+        // Add event listeners
+        pubFilters.querySelectorAll('.pub-filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                pubFilters.querySelectorAll('.pub-filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterPublications(btn.dataset.filter);
+            });
+        });
+    }
+    
+    // ---- Render Publications ----
+    function renderPublications(pubs) {
+        pubList.innerHTML = pubs.map(pub => createPubCard(pub)).join('');
+        attachCardListeners();
+    }
+    
+    // ---- Create Single Publication Card ----
+    function createPubCard(pub) {
+        const authorsHtml = pub.authors.map(a => 
+            a.self ? `<span class="self">${a.name}</span>` : a.name
+        ).join(', ');
+        
+        const tagsAttr = pub.tags ? pub.tags.join(' ') : '';
+        const featuredClass = pub.featured ? 'featured' : '';
+        const hasImageClass = pub.image ? '' : 'no-image';
+        
+        const citation = `${pub.authors.map(a => a.name).join(', ')} (${pub.year}). ${pub.title}. ${pub.journal}${pub.volume ? ', ' + pub.volume : ''}${pub.pages ? ', ' + pub.pages : ''}. https://doi.org/${pub.doi}`;
+        
+        return `
+            <article class="pub-card ${featuredClass} ${hasImageClass}" data-tags="${tagsAttr} ${pub.featured ? 'featured' : ''}" data-id="${pub.id}">
+                <div class="pub-image">
+                    ${pub.badge ? `<span class="pub-badge">⭐ ${pub.badge}</span>` : ''}
+                    <span class="pub-year-badge">${pub.year}</span>
+                    ${pub.image 
+                        ? `<img src="${pub.image}" alt="${pub.title}" loading="lazy">`
+                        : `<div class="pub-image-placeholder">
+                                <i class="fas fa-file-alt"></i>
+                                <span>${pub.journal.split(' ')[0]}</span>
+                           </div>`
                     }
+                </div>
+                
+                <div class="pub-content">
+                    <h3 class="pub-title">
+                        <a href="https://doi.org/${pub.doi}" target="_blank" rel="noopener">
+                            ${pub.title}
+                        </a>
+                    </h3>
+                    
+                    <p class="pub-authors">${authorsHtml}</p>
+                    
+                    <p class="pub-venue">
+                        <i class="fas fa-journal-whills"></i>
+                        <span class="journal">${pub.journal}</span>${pub.volume ? `, ${pub.volume}` : ''}${pub.pages ? ` (${pub.pages})` : ''}
+                    </p>
+                    
+                    ${pub.abstract ? `
+                        <div class="pub-abstract">
+                            <button class="abstract-toggle">
+                                <i class="fas fa-chevron-down"></i> Abstract
+                            </button>
+                            <div class="abstract-content">
+                                <p>${pub.abstract}</p>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="pub-metrics">
+                        ${pub.citations ? `
+                            <span class="pub-citations" title="Google Scholar citations">
+                                <i class="fas fa-quote-right"></i> ${pub.citations} citations
+                            </span>
+                        ` : ''}
+                        ${pub.openAccess ? `
+                            <span class="pub-access open-access" title="Open Access">
+                                <i class="fas fa-lock-open"></i> Open Access
+                            </span>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="pub-actions">
+                        <a href="https://doi.org/${pub.doi}" target="_blank" class="pub-btn" rel="noopener">
+                            <i class="fas fa-external-link-alt"></i> DOI
+                        </a>
+                        ${pub.pdf ? `
+                            <a href="${pub.pdf}" target="_blank" class="pub-btn">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </a>
+                        ` : ''}
+                        <button class="pub-btn cite-btn" data-citation="${escapeHtml(citation)}">
+                            <i class="fas fa-quote-left"></i> Cite
+                        </button>
+                    </div>
+                </div>
+            </article>
+        `;
+    }
+    
+    // ---- Attach Event Listeners to Cards ----
+    function attachCardListeners() {
+        // Abstract toggles
+        document.querySelectorAll('.abstract-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.parentElement.classList.toggle('open');
+            });
+        });
+        
+        // Citation copy buttons
+        document.querySelectorAll('.cite-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const citation = btn.dataset.citation;
+                
+                try {
+                    await navigator.clipboard.writeText(citation);
+                    showCopied(btn);
+                } catch (err) {
+                    // Fallback
+                    const textarea = document.createElement('textarea');
+                    textarea.value = citation;
+                    textarea.style.cssText = 'position:fixed;opacity:0';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showCopied(btn);
                 }
             });
         });
-    });
-
-    // ---- Search ----
-    const searchInput = document.getElementById('pubSearch');
+    }
     
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
+    function showCopied(btn) {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+    
+    // ---- Filter Publications ----
+    function filterPublications(filter) {
+        const cards = document.querySelectorAll('.pub-card');
         
-        // Reset filter buttons to "All" when searching
-        filterBtns.forEach(b => b.classList.remove('active'));
-        document.querySelector('[data-filter="all"]').classList.add('active');
-
-        pubCards.forEach(card => {
-            const title = card.querySelector('.pub-title').textContent.toLowerCase();
-            const authors = card.querySelector('.pub-authors').textContent.toLowerCase();
-            const venue = card.querySelector('.pub-venue').textContent.toLowerCase();
-            const abstract = card.querySelector('.abstract-content')?.textContent.toLowerCase() || '';
-
-            const searchableText = `${title} ${authors} ${venue} ${abstract}`;
-
-            if (query === '' || searchableText.includes(query)) {
+        cards.forEach(card => {
+            const tags = card.dataset.tags || '';
+            
+            if (filter === 'all') {
+                card.classList.remove('hidden');
+            } else if (tags.includes(filter)) {
                 card.classList.remove('hidden');
             } else {
                 card.classList.add('hidden');
             }
         });
-    });
-
-    // ---- Copy Citation ----
-    document.querySelectorAll('.cite-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-            const citation = btn.dataset.citation;
+    }
+    
+    // ---- Search ----
+    if (pubSearch) {
+        pubSearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
             
-            try {
-                await navigator.clipboard.writeText(citation);
+            // Reset filters to "All"
+            pubFilters.querySelectorAll('.pub-filter-btn').forEach(b => b.classList.remove('active'));
+            pubFilters.querySelector('[data-filter="all"]')?.classList.add('active');
+            
+            const cards = document.querySelectorAll('.pub-card');
+            
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
                 
-                // Visual feedback
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.classList.remove('copied');
-                }, 2000);
-                
-            } catch (err) {
-                // Fallback for older browsers
-                const textarea = document.createElement('textarea');
-                textarea.value = citation;
-                textarea.style.position = 'fixed';
-                textarea.style.opacity = '0';
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                
-                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-quote-left"></i> Cite';
-                    btn.classList.remove('copied');
-                }, 2000);
-            }
+                if (query === '' || text.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
         });
-    });
-
+    }
+    
+    // ---- Utilities ----
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML.replace(/"/g, '&quot;');
+    }
+    
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('en-GB', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric' 
+        });
+    }
+    
 });
 </script>
 </body>
