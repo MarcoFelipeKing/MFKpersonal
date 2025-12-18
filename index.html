@@ -1217,48 +1217,48 @@
             });
         </script>
     </section>
+
     <!-- PUBLICATIONS SECTION -->
-    <!-- PUBLICATIONS SECTION -->
-<section class="publications-section" id="publications">
-    <div class="section-container">
-        <div class="section-header">
-            <h2>Selected Publications</h2>
-            <p>Key peer-reviewed research outputs — 
-                <a href="https://scholar.google.com/citations?user=avLSE_oAAAAJ&hl=es" target="_blank" style="color: var(--accent);">
-                    view full list on Google Scholar
+    <section class="publications-section" id="publications">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Selected Publications</h2>
+                <p>Key peer-reviewed research outputs — 
+                    <a href="https://scholar.google.com/citations?user=avLSE_oAAAAJ&hl=es" target="_blank" style="color: var(--accent);">
+                        view full list on Google Scholar
+                    </a>
+                </p>
+                <div class="section-divider"></div>
+            </div>
+
+            <!-- Controls: populated by JS -->
+            <div class="pub-controls">
+                <div class="pub-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="pubSearch" placeholder="Search publications...">
+                </div>
+                <div class="pub-filters" id="pubFilters">
+                    <!-- Filter buttons inserted here by JS -->
+                </div>
+            </div>
+
+            <!-- Loading state -->
+            <div id="pubLoading" class="pub-loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading publications...
+            </div>
+
+            <!-- Publications list: populated by JS -->
+            <div class="pub-list" id="pubList"></div>
+
+            <!-- Footer -->
+            <div class="pub-footer">
+                <p class="pub-updated" id="pubUpdated"></p>
+                <a href="https://scholar.google.com/citations?user=avLSE_oAAAAJ&hl=es" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-graduation-cap"></i> View All Publications
                 </a>
-            </p>
-            <div class="section-divider"></div>
-        </div>
-
-        <!-- Controls: populated by JS -->
-        <div class="pub-controls">
-            <div class="pub-search">
-                <i class="fas fa-search"></i>
-                <input type="text" id="pubSearch" placeholder="Search publications...">
-            </div>
-            <div class="pub-filters" id="pubFilters">
-                <!-- Filter buttons inserted here by JS -->
             </div>
         </div>
-
-        <!-- Loading state -->
-        <div id="pubLoading" class="pub-loading">
-            <i class="fas fa-spinner fa-spin"></i> Loading publications...
-        </div>
-
-        <!-- Publications list: populated by JS -->
-        <div class="pub-list" id="pubList"></div>
-
-        <!-- Footer -->
-        <div class="pub-footer">
-            <p class="pub-updated" id="pubUpdated"></p>
-            <a href="https://scholar.google.com/citations?user=avLSE_oAAAAJ&hl=es" target="_blank" class="btn btn-primary">
-                <i class="fas fa-graduation-cap"></i> View All Publications
-            </a>
-        </div>
-    </div>
-</section>
+    </section>
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="section-container">
