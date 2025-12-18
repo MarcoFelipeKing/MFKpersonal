@@ -119,67 +119,451 @@
         [data-theme="dark"] .org-logo { filter: grayscale(100%) invert(1); }
         [data-theme="dark"] .logo-grid:hover .org-logo { filter: invert(0); }
 
-        /* WPE LEADERSHIP SECTION */
+        /* ========================================
+   WPE LEADERSHIP SECTION
+   ======================================== */
 
-        .wpe-section {
-        background: linear-gradient(135deg, var(--wpe-teal) 0%, var(--wpe-blue) 50%, var(--wpe-lavender) 100%);
-        color: var(--wpe-charcoal);
-        position: relative;
-        overflow: hidden;
+        /* Color Variables - Add to your :root if not already defined */
+        :root {
+            --wpe-teal: #8AC9C1;
+            --wpe-blue: #6BA3D6;
+            --wpe-lavender: #9F90C5;
+            --wpe-navy: #2C3E50;
+            --wpe-charcoal: #34495E;
         }
 
+        /* Section Container */
+        .wpe-section {
+            position: relative;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--wpe-teal) 0%, var(--wpe-blue) 50%, var(--wpe-lavender) 100%);
+            overflow: hidden;
+        }
+
+        /* Background Image Overlay */
+        .wpe-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('images/cfd_SilsoePic1.png') center/cover no-repeat;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        /* Subtle Pattern Overlay */
+        .wpe-bg-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Light Gradient Overlay */
         .wpe-section::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 70%);
-        pointer-events: none;
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 0%, rgba(255,255,255,0.3), transparent 60%);
+            pointer-events: none;
         }
-        .wpe-section {
-            background: linear-gradient(135deg, rgba(138, 201, 193,0.94), rgba(159, 144, 197,0.94)),
-                        url('images/cfd_SilsoePic1.png') center/cover no-repeat;
-            }
-        .wpe-section::before { pointer-events: none; }  
-        .wpe-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.828-1.415 1.415-.828-.828-.828.828-1.415-1.415.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828zM22.485 0l.83.828-1.415 1.415-.828-.828-.828.828-1.415-1.415.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828zM0 22.485l.828.83-1.415 1.415-.828-.828-.828.828L-3.658 22.485l.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828zM0 54.627l.828.83-1.415 1.415-.828-.828-.828.828L-3.658 54.627l.828-.828-.828-.828 1.415-1.415.828.828.828-.828 1.415 1.415-.828.828z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"); }
-        .wpe-header { text-align: center; margin-bottom: 3rem; position: relative; z-index: 2; }
+
+        /* Ensure content is above overlays */
+        .wpe-section .section-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        .wpe-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .wpe-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--wpe-navy);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+
         .wpe-header h2 {
-        color: var(--wpe-navy);
-        letter-spacing: 1px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .wpe-header p {
-        color: var(--wpe-charcoal);
-        opacity: 0.85;
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
-        .wpe-stat-num { color: var(--wpe-lavender); }
-        .wpe-stats { display: flex; justify-content: center; gap: 3rem; margin: 2rem 0; }
-        .wpe-stat { text-align: center; background: rgba(255,255,255,0.1); padding: 1rem 2rem; border-radius: 12px; backdrop-filter: blur(5px); }
-        .wpe-stat-num { display: block; font-size: 2rem; font-weight: 700; color: var(--accent-light); }
-        
-        .wpe-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; position: relative; z-index: 2; }
-        .wpe-card { background: rgba(255,255,255,0.1); padding: 1.5rem 1rem; border-radius: 12px; text-align: center; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
-        .wpe-card:hover { background: rgba(255,255,255,0.2); transform: translateY(-5px); }
-        .wpe-card i { color: currentColor; opacity: 0.8; }
-        .wpe-card h3 { font-size: 1rem; margin-bottom: 0.5rem; color: white; }
-        .wpe-card p { font-size: 0.8rem; opacity: 0.8; line-height: 1.4; }
+        /* Director Card */
+        .wpe-director-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .director-badge {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--wpe-teal), var(--wpe-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .director-info {
+            flex: 1;
+        }
+
+        .director-role {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--wpe-navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .director-info p {
+            font-size: 0.9rem;
+            color: var(--wpe-charcoal);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .director-since {
+            flex-shrink: 0;
+            text-align: center;
+            padding-left: 1.5rem;
+            border-left: 1px solid #e0e0e0;
+        }
+
+        .since-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 0.25rem;
+        }
+
+        .since-year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--wpe-blue);
+        }
+
+        /* Stats */
+        .wpe-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .wpe-stat {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .wpe-stat:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .wpe-stat-icon {
+            flex-shrink: 0;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--wpe-navy);
+            font-size: 1.1rem;
+        }
+
+        .wpe-stat-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wpe-stat-num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .wpe-stat-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Research Themes */
+        .wpe-themes {
+            margin-bottom: 2rem;
+        }
+
+        .wpe-themes-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wpe-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        /* Theme Cards */
         .wpe-card {
-        background: rgba(255,255,255,0.85);
-        color: var(--wpe-charcoal);
-        transition: all 0.4s ease;
-        border-top: 4px solid transparent;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-        }
-        .wpe-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem 1.25rem;
+            border-radius: 12px;
+            text-align: center;
+            border-top: 4px solid transparent;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .wpe-card[data-topic="air"] { border-color: var(--wpe-blue); }
-        .wpe-card[data-topic="biores"] { border-color: var(--wpe-navy); }
-        .wpe-card[data-topic="health"] { border-color: var(--wpe-lavender); }
-        .wpe-card[data-topic="sanitation"] { border-color: var(--wpe-charcoal); }
-        .wpe-card[data-topic="water"] { border-color: var(--wpe-teal); }
+        .wpe-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Card Topic Colors */
+        .wpe-card[data-topic="air"] { border-top-color: var(--wpe-blue); }
+        .wpe-card[data-topic="biores"] { border-top-color: #27ae60; }
+        .wpe-card[data-topic="health"] { border-top-color: var(--wpe-lavender); }
+        .wpe-card[data-topic="sanitation"] { border-top-color: var(--wpe-charcoal); }
+        .wpe-card[data-topic="water"] { border-top-color: var(--wpe-teal); }
+
+        .wpe-card-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .wpe-card[data-topic="air"] .wpe-card-icon { background: var(--wpe-blue); }
+        .wpe-card[data-topic="biores"] .wpe-card-icon { background: #27ae60; }
+        .wpe-card[data-topic="health"] .wpe-card-icon { background: var(--wpe-lavender); }
+        .wpe-card[data-topic="sanitation"] .wpe-card-icon { background: var(--wpe-charcoal); }
+        .wpe-card[data-topic="water"] .wpe-card-icon { background: var(--wpe-teal); }
+
+        .wpe-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--wpe-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .wpe-card p {
+            font-size: 0.8rem;
+            color: var(--wpe-charcoal);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* "Your Primary Theme" Tag */
+        .wpe-card-tag {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+            color: #1a1a2e;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CTA Button */
+        .wpe-cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn-wpe {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--wpe-navy);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .btn-wpe:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: var(--wpe-navy);
+            color: white;
+        }
+
+        .btn-wpe i {
+            transition: transform 0.2s;
+        }
+
+        .btn-wpe:hover i {
+            transform: translateX(4px);
+        }
+
+        /* ========================================
+        RESPONSIVE DESIGN
+        ======================================== */
+
+        @media (max-width: 1024px) {
+            .wpe-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .wpe-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .wpe-section {
+                padding: 3rem 0;
+            }
+            
+            .wpe-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .wpe-header p {
+                font-size: 0.95rem;
+            }
+            
+            /* Director Card - Stack on mobile */
+            .wpe-director-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+            
+            .director-since {
+                padding-left: 0;
+                padding-top: 1rem;
+                border-left: none;
+                border-top: 1px solid #e0e0e0;
+                width: 100%;
+            }
+            
+            /* Stats - 2 columns on tablet, stacked on mobile */
+            .wpe-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .wpe-stat {
+                padding: 1rem;
+            }
+            
+            .wpe-stat-num {
+                font-size: 1.25rem;
+            }
+            
+            /* Theme Cards - 2 columns */
+            .wpe-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .wpe-card {
+                padding: 1.25rem 1rem;
+            }
+            
+            .wpe-card-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .wpe-card h4 {
+                font-size: 0.9rem;
+            }
+            
+            .wpe-card p {
+                font-size: 0.75rem;
+            }
+            
+            .wpe-card-tag {
+                font-size: 0.55rem;
+                padding: 0.2rem 0.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wpe-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .wpe-stat {
+                justify-content: center;
+            }
+            
+            .wpe-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-wpe {
+                width: 100%;
+                justify-content: center;
+            }
+        }
 
         /* LATEST ACTIVITY STYLES */
         .news-banner { background: var(--bg-alt); padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
@@ -1075,7 +1459,7 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="#" class="nav-logo">MFK</a>
+            <a href="#" class="nav-logo">Marco-Felipe King</a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#about">About</a></li>
                 <li><a href="#wpe">Leadership</a></li>
@@ -1212,63 +1596,127 @@
         </div>
     </section>
 
-    <!-- NEW: WPE LEADERSHIP SECTION -->
+    <!-- WPE LEADERSHIP SECTION -->
     <section class="wpe-section" id="wpe">
+        <div class="wpe-bg-pattern"></div>
+        
         <div class="section-container">
-            <div class="wpe-header">
-                <h2>Academic Leadership</h2>
-                <p><strong>Director</strong> of the Water, Public Health & Environmental Engineering (WPE) Research Group. Based in the School of Civil Engineering at the University of Leeds.</p>
-            </div>
             
+            <!-- Header with Role Highlight -->
+            <div class="wpe-header">
+                <span class="wpe-label">Academic Leadership</span>
+                <h2>Water, Public Health & Environmental Engineering</h2>
+                <p>One of the UK's leading research groups in environmental engineering, based in the School of Civil Engineering at the University of Leeds.</p>
+            </div>
+
+            <!-- Director Card - Personal highlight -->
+            <div class="wpe-director-card">
+                <div class="director-badge">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="director-info">
+                    <span class="director-role">Research Group Director</span>
+                    <p>Leading strategic vision, fostering interdisciplinary collaboration, and mentoring the next generation of environmental engineers.</p>
+                </div>
+                <div class="director-since">
+                    <span class="since-label">Director since</span>
+                    <span class="since-year">2023</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
             <div class="wpe-stats">
                 <div class="wpe-stat">
-                    <span class="wpe-stat-num">15</span>
-                    <span>Academics</span>
+                    <div class="wpe-stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="wpe-stat-content">
+                        <span class="wpe-stat-num">15</span>
+                        <span class="wpe-stat-label">Academic Staff</span>
+                    </div>
                 </div>
                 <div class="wpe-stat">
-                    <span class="wpe-stat-num">50</span>
-                    <span>PhD Researchers</span>
+                    <div class="wpe-stat-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="wpe-stat-content">
+                        <span class="wpe-stat-num">50+</span>
+                        <span class="wpe-stat-label">PhD Researchers</span>
+                    </div>
                 </div>
                 <div class="wpe-stat">
-                    <span class="wpe-stat-num">2003</span>
-                    <span>Est.</span>
+                    <div class="wpe-stat-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="wpe-stat-content">
+                        <span class="wpe-stat-num">£10M+</span>
+                        <span class="wpe-stat-label">Active Grants</span>
+                    </div>
+                </div>
+                <div class="wpe-stat">
+                    <div class="wpe-stat-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="wpe-stat-content">
+                        <span class="wpe-stat-num">2003</span>
+                        <span class="wpe-stat-label">Established</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="wpe-grid">
-                <div class="wpe-card">
-                    <i class="fas fa-wind"></i>
-                    <h3>Indoor Air</h3>
-                    <p>Researching pollutants, ventilation systems, and health impacts of indoor environments.</p>
-                </div>
-                <div class="wpe-card">
-                    <i class="fas fa-recycle"></i>
-                    <h3>BioResources</h3>
-                    <p>Developing sustainable technologies for resource recovery and circular economy.</p>
-                </div>
-                <div class="wpe-card">
-                    <i class="fas fa-heartbeat"></i>
-                    <h3>Public Health</h3>
-                    <p>Addressing environmental health challenges with evidence-based solutions.</p>
-                </div>
-                <div class="wpe-card">
-                    <i class="fas fa-toilet"></i>
-                    <h3>Sanitation</h3>
-                    <p>Creating sustainable sanitation systems for improved global health outcomes.</p>
-                </div>
-                <div class="wpe-card">
-                    <i class="fas fa-water"></i>
-                    <h3>Water</h3>
-                    <p>Water pathways and engineering solutions for global challenges.</p>
+            <!-- Research Themes -->
+            <div class="wpe-themes">
+                <h3 class="wpe-themes-title">Research Themes</h3>
+                <div class="wpe-grid">
+                    <div class="wpe-card" data-topic="air">
+                        <div class="wpe-card-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <h4>Indoor Air</h4>
+                        <p>Pollutants, ventilation systems, and health impacts of indoor environments.</p>
+                        <span class="wpe-card-tag">Your Primary Theme</span>
+                    </div>
+                    <div class="wpe-card" data-topic="biores">
+                        <div class="wpe-card-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h4>BioResources</h4>
+                        <p>Sustainable technologies for resource recovery and circular economy.</p>
+                    </div>
+                    <div class="wpe-card" data-topic="health">
+                        <div class="wpe-card-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h4>Public Health</h4>
+                        <p>Environmental health challenges with evidence-based solutions.</p>
+                    </div>
+                    <div class="wpe-card" data-topic="sanitation">
+                        <div class="wpe-card-icon">
+                            <i class="fas fa-toilet"></i>
+                        </div>
+                        <h4>Sanitation</h4>
+                        <p>Sustainable sanitation systems for improved global health outcomes.</p>
+                    </div>
+                    <div class="wpe-card" data-topic="water">
+                        <div class="wpe-card-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h4>Water</h4>
+                        <p>Water pathways and engineering solutions for global challenges.</p>
+                    </div>
                 </div>
             </div>
-            
-            <div style="text-align:center; margin-top:2rem;">
-                <a href="https://wpeleeds.org" target="_blank" class="btn-wpe"> Explore WPE Research Group <i class="fas fa-arrow-right"></i> </a>
+
+            <!-- CTA -->
+            <div class="wpe-cta">
+                <a href="https://wpeleeds.org" target="_blank" class="btn-wpe">
+                    <span>Explore WPE Research Group</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
+
         </div>
     </section>
-
     <!-- MEDIA / CFD VIDEOS SECTION -->
     <section id="media">
         <div class="section-container">
@@ -1312,6 +1760,16 @@
                         <p>Lattice-Boltzmann simulations of airflow around obstacles on GPU.</p>
                     </div>
                 </div>
+                <!-- Image 3 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="images/BRIDGEWATER PLACE Leeds_1.jpeg" title="Airflow Around A High-Rise Building" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="video-caption">
+                        <h3><i class="fas fa-computer"></i>Computational Fluid Dynamics in the Urban Environment</h3>
+                        <p>CFD around a high-rise building in showing streamlines coloured by velocity magnitude.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1325,7 +1783,7 @@
             <div class="section-divider"></div>
         </div>
 
-        <!-- Stats Bar -->
+        <!-- Stats Bar
         <div class="collab-stats">
             <div class="collab-stat">
                 <span class="collab-stat-num">60+</span>
@@ -1344,6 +1802,7 @@
                 <span class="collab-stat-label">Countries</span>
             </div>
         </div>
+         -->
 
         <!-- Featured Collaborators Grid -->
         <div class="collab-grid">
@@ -1415,17 +1874,17 @@
             <!-- Collaborator 3 -->
             <div class="collab-card">
                 <div class="collab-photo">
-                    <img src="images/collaborators/louise.jpeg" alt="Dr. Louise Fletcher">
+                    <img src="images/collaborators/martin.jpeg" alt="Prof. Martín López García">
                 </div>
                 <div class="collab-info">
-                    <h3 class="collab-name">Dr. Louise Fletcher</h3>
-                    <p class="collab-role">Associate Professor</p>
+                    <h3 class="collab-name">Prof. Martín López García</h3>
+                    <p class="collab-role">Professor</p>
                     <p class="collab-institution">
                         <i class="fas fa-university"></i> University of Leeds
                     </p>
                     <div class="collab-focus">
-                        <span class="focus-tag">Bioaerosols</span>
-                        <span class="focus-tag">UV Disinfection</span>
+                        <span class="focus-tag">Epidemiology</span>
+                        <span class="focus-tag">Bayesian inference</span>
                     </div>
                     <div class="collab-meta">
                         <span class="joint-papers">
@@ -1433,10 +1892,10 @@
                         </span>
                     </div>
                     <div class="collab-links">
-                        <a href="#" target="_blank" title="Google Scholar">
+                        <a href="https://scholar.google.com/citations?user=zqaTyfsAAAAJ&hl=es" target="_blank" title="Google Scholar">
                             <i class="fas fa-graduation-cap"></i>
                         </a>
-                        <a href="#" target="_blank" title="University Profile">
+                        <a href="https://matml.github.io" target="_blank" title="University Profile">
                             <i class="fas fa-user"></i>
                         </a>
                     </div>
@@ -1455,8 +1914,9 @@
                         <i class="fas fa-university"></i> University of Arizona
                     </p>
                     <div class="collab-focus">
-                        <span class="focus-tag">Hospital Design</span>
+                        <span class="focus-tag">Risk trade-off analysis</span>
                         <span class="focus-tag">Surface Infection Transmission</span>
+                        <span class="focus-tag">QMRA</span>
                     </div>
                     <div class="collab-meta">
                         <span class="joint-papers">
@@ -1464,10 +1924,10 @@
                         </span>
                     </div>
                     <div class="collab-links">
-                        <a href="#" target="_blank" title="Google Scholar">
+                        <a href="https://scholar.google.com/citations?user=doq2fwEAAAAJ&hl=en" target="_blank" title="Google Scholar">
                             <i class="fas fa-graduation-cap"></i>
                         </a>
-                        <a href="#" target="_blank" title="University Profile">
+                        <a href="https://publichealth.arizona.edu/directory/amanda-wilson" target="_blank" title="University Profile">
                             <i class="fas fa-user"></i>
                         </a>
                     </div>
@@ -1480,7 +1940,7 @@
                     <img src="images/collaborators/janet.jpeg" alt="Prof. Janet Barlow">
                 </div>
                 <div class="collab-info">
-                    <h3 class="collab-name">Prof. Goodarz Ahmadi</h3>
+                    <h3 class="collab-name">Prof. Janet Barlow</h3>
                     <p class="collab-role">Professor of Environmental Physics</p>
                     <p class="collab-institution">
                         <i class="fas fa-university"></i> University of Reading
@@ -1517,11 +1977,12 @@
                     <h3 class="collab-name">Dr. Nan Zhang</h3>
                     <p class="collab-role">Infection Prevention Teams</p>
                     <p class="collab-institution">
-                        <i class="fas fa-university"></i> Leeds Teaching Hospitals
+                        <i class="fas fa-university"></i> Beijing University of Technology
                     </p>
                     <div class="collab-focus">
-                        <span class="focus-tag">Clinical Translation</span>
-                        <span class="focus-tag">Real-world Testing</span>
+                        <span class="focus-tag">Infectious Disease Transmission</span>
+                        <span class="focus-tag">Risk Analysis</span>
+                        <span class="focus-tag">Surface Contact Modelling</span>
                     </div>
                     <div class="collab-meta">
                         <span class="joint-papers">
@@ -1566,6 +2027,37 @@
                     </div>
                 </div>
             </div>
+            <!-- Collaborator 8 -->
+            <div class="collab-card">
+                <div class="collab-photo">
+                    <img src="images/collaborators/stephanie.jpeg" alt="Stephanie Dancer">
+                    <div class="collab-photo-overlay">
+                        <i class="fas fa-university"></i>
+                    </div>
+                </div>
+                <div class="collab-info">
+                    <h3 class="collab-name">Prof. Stephanie Dancer</h3>
+                    <p class="collab-role">Clinical Microbiology</p>
+                    <p class="collab-institution">
+                        <i class="fas fa-university"></i>Edinburgh Napier University
+                    </p>
+                    <div class="collab-focus">
+                        <span class="focus-tag">Clinical microbiology</span>
+                        <span class="focus-tag">Air-cleaning technology</span>
+                        <span class="focus-tag">Surface cleaning</span>
+                    </div>
+                    <div class="collab-meta">
+                        <span class="joint-papers">
+                            <i class="fas fa-file-alt"></i> 3 joint papers
+                        </span>
+                    </div>
+                    <div class="collab-links">
+                        <a href="https://scholar.google.com/citations?user=hv587NEAAAAJ&hl=en" target="_blank" title="Google Scholar">
+                            <i class="fas fa-graduation-cap"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -1582,7 +2074,7 @@
             </div>
         </div>
 
-        <!-- Research Themes (keep from your original) -->
+        <!-- Research Themes-->
         <div class="themes-section">
             <h3>Research Themes</h3>
             <div class="theme-clusters">
@@ -1629,24 +2121,24 @@
                 <!-- Student 1 -->
                 <div class="team-member">
                     <!-- Use images/student1.jpg -->
-                    <img src="images/xiaoxuan.jpg" alt="Xiaoxuan Qin" class="member-photo">
+                    <img src="images/researchers/xiaoxuan.jpg" alt="Xiaoxuan Qin" class="member-photo">
                     <h3 class="member-name">Xiaoxuan Qin</h3>
                     <p class="member-topic">PhD Candidate</p>
-                    <p class="member-bio">Modelling Surface Transfer and Infection Transmission.</p>
+                    <p class="member-bio">Quantitative Microbial Risk Assessment techniques for fomite transmission.</p>
                 </div>
                 <!-- Student 2 -->
                 <div class="team-member">
-                    <img src="images/anushi.jpg" alt="Anushi Khandare" class="member-photo">
+                    <img src="images/researchers/anushi.jpg" alt="Anushi Khandare" class="member-photo">
                     <h3 class="member-name">Anushi Khandare</h3>
                     <p class="member-topic">PhD Candidate</p>
-                    <p class="member-bio">Surface contamination networks in airport terminals.</p>
+                    <p class="member-bio">Evaluating the effect of air air cleaning devices in hospital air and surface microbial samples.</p>
                 </div>
                 <!-- Student 3 -->
                 <div class="team-member">
-                    <img src="images/student_placeholder.jpg" alt="Danny Blundell" class="member-photo">
+                    <img src="images/researchers/" alt="Danny Blundell" class="member-photo">
                     <h3 class="member-name">Danny Blundell</h3>
-                    <p class="member-topic">Post-Doc Researcher</p>
-                    <p class="member-bio">HECOIRA project lead on hospital ventilation design.</p>
+                    <p class="member-topic">PhD Candidate</p>
+                    <p class="member-bio">Distribution of microbial pathogens in aerosols and the implications for airborne transmission.</p>
                 </div>
                 <!-- Student 4 -->
                 <div class="team-member">
@@ -1657,9 +2149,9 @@
                 </div>
                 <!-- Student 5 -->
                 <div class="team-member">
-                    <img src="images/ciara.jpg" alt="Ciara Higham" class="member-photo">
-                    <h3 class="member-name">Ciara Higham</h3>
-                    <p class="member-topic">PDRA</p>
+                    <img src="images/researchers/ciara.jpg" alt="Ciara Higham" class="member-photo">
+                    <h3 class="member-name">Dr. Ciara Higham</h3>
+                    <p class="member-topic">PDRA University of Sheffield</p>
                     <p class="member-bio">Characterising a time-dependent automatic microorganisms sampler: AMPAS</p>
                 </div>
             </div>
@@ -1667,35 +2159,35 @@
                 <!-- Student 1 -->
                 <div class="team-member">
                     <!-- Use images/student1.jpg -->
-                    <img src="images/bushra.png" alt="Bushra Hasan" class="member-photo">
-                    <h3 class="member-name">Bushra Hasan</h3>
-                    <p class="member-topic">PhD Completed</p>
+                    <img src="images/researchers/bushra.png" alt="Bushra Hasan" class="member-photo">
+                    <h3 class="member-name">Dr. Bushra Hasan</h3>
+                    <p class="member-topic">Bolton City Council</p>
                     <p class="member-bio">Investigating the influence of user behaviours and toilet design on SARS-CoV-2 exposure in shared sanitation facilities.</p>
                 </div>
                 <!-- Student 2 -->
                 <div class="team-member">
-                    <img src="images/jemma.jpg" alt="Jemma Phillips" class="member-photo">
-                    <h3 class="member-name">Jemma Phillips</h3>
-                    <p class="member-topic">PhD Completed</p>
+                    <img src="images/researchers/jemma.jpg" alt="Jemma Phillips" class="member-photo">
+                    <h3 class="member-name">Dr. Jemma Phillips</h3>
+                    <p class="member-topic">Lecturer</p>
                     <p class="member-bio">Characterising gastrointestinal pathogen exposure from distal and proximal sources in New Delhi.</p>
                 </div>
                 <!-- Student 3 -->
                 <div class="team-member">
-                    <img src="images/alex.jpg" alt="Alexander Edwards" class="member-photo">
-                    <h3 class="member-name">Alexander Edwards</h3>
-                    <p class="member-topic">PhD Completed</p>
+                    <img src="images/researchers/alex.jpg" alt="Alexander Edwards" class="member-photo">
+                    <h3 class="member-name">Dr. Alexander Edwards</h3>
+                    <p class="member-topic">Lecturer University of Bristol</p>
                     <p class="member-bio">Evaluating infection risk in hospital multi-bed wards using Wells-Riley.</p>
                 </div>
                 <!-- Student 4 -->
                 <div class="team-member">
-                    <img src="images/waseem.jpg" alt="Waseem Hiwar" class="member-photo">
-                    <h3 class="member-name">Waseem Hiwar</h3>
-                    <p class="member-topic">PhD Completed</p>
+                    <img src="images/researchers/waseem.jpg" alt="Waseem Hiwar" class="member-photo">
+                    <h3 class="member-name">Dr. Waseem Hiwar</h3>
+                    <p class="member-topic">PDRA University of Leeds</p>
                     <p class="member-bio">Characterisation of bioaerosols in hospital patient wards.</p>
                 </div>
                 <!-- Student 5 -->
                 <div class="team-member">
-                    <img src="images/yoonhee.jpg" alt="Yoonhee Jung" class="member-photo">
+                    <img src="images/researchers/yoonhee.jpg" alt="Yoonhee Jung" class="member-photo">
                     <h3 class="member-name">Yoonhee Jung</h3>
                     <p class="member-topic">PhD University of Arizona</p>
                     <p class="member-bio">Risk-risk tradeoffs and risk-perception study associated with cleaning and disinfection (C&D) using “green” products.</p>
