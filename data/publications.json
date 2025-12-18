@@ -1,0 +1,126 @@
+{
+  "lastUpdated": "2025-01-15",
+  "publications": [
+    {
+      "id": "king-2025-faruvc",
+      "title": "Modelling the effectiveness of Far-UVC (222 nm) light for reducing airborne pathogen transmission in occupied rooms",
+      "authors": [
+        { "name": "King, M-F.", "self": true },
+        { "name": "Noakes, C.J." },
+        { "name": "Fletcher, L.A." },
+        { "name": "Sleigh, P.A." }
+      ],
+      "year": 2025,
+      "journal": "Building and Environment",
+      "volume": "267",
+      "pages": "112734",
+      "doi": "10.1016/j.buildenv.2025.112734",
+      "pdf": "papers/king_2025_faruvc.pdf",
+      "image": "images/publications/king_2025_faruvc.jpg",
+      "abstract": "Far-UVC light at 222 nm has emerged as a promising technology for inactivating airborne pathogens while remaining safe for human exposure. This study develops a computational framework combining CFD-based airflow simulation with pathogen transport and UV dose-response modelling to evaluate the effectiveness of Far-UVC in reducing infection transmission risk in occupied spaces. Results demonstrate that Far-UVC can achieve equivalent air changes of 20–30 ACH under typical operating conditions, significantly outperforming conventional ventilation strategies.",
+      "tags": ["infection", "ventilation", "uvc"],
+      "featured": true,
+      "badge": "Highly Cited",
+      "citations": 42,
+      "openAccess": true
+    },
+    {
+      "id": "hiwar-2023-bioaerosol",
+      "title": "Bioaerosol deposition in single and multi-bed hospital wards: A numerical simulation study",
+      "authors": [
+        { "name": "Hiwar, W." },
+        { "name": "King, M-F.", "self": true },
+        { "name": "Sez, H." },
+        { "name": "Fletcher, L.A." },
+        { "name": "Noakes, C.J." }
+      ],
+      "year": 2023,
+      "journal": "Indoor Air",
+      "volume": "33(6)",
+      "pages": "e13058",
+      "doi": "10.1111/ina.13058",
+      "pdf": "papers/hiwar_2023_bioaerosol.pdf",
+      "image": "images/publications/hiwar_2023_bioaerosol.jpg",
+      "abstract": "Hospital-acquired infections represent a significant burden on healthcare systems worldwide. This study employs high-resolution computational fluid dynamics to simulate the transport and deposition of respiratory bioaerosols in realistic hospital ward geometries. We compare single-bed isolation rooms with open multi-bed Nightingale-style wards under varying ventilation configurations.",
+      "tags": ["infection", "cfd", "hospital"],
+      "featured": false,
+      "citations": 28,
+      "openAccess": false
+    },
+    {
+      "id": "qin-2022-fomites",
+      "title": "Quantifying the role of fomites in SARS-CoV-2 transmission: A stochastic network model",
+      "authors": [
+        { "name": "Qin, X." },
+        { "name": "King, M-F.", "self": true },
+        { "name": "Noakes, C.J." },
+        { "name": "Ahmadi, G." }
+      ],
+      "year": 2022,
+      "journal": "Journal of the Royal Society Interface",
+      "volume": "19(187)",
+      "pages": "20210720",
+      "doi": "10.1098/rsif.2021.0720",
+      "pdf": "papers/qin_2022_fomites.pdf",
+      "image": "images/publications/qin_2022_fomites.jpg",
+      "abstract": "Surface contamination has been hypothesized as a secondary transmission route for respiratory viruses. We develop a stochastic network model coupling human touch behavior, viral persistence on materials, and dose-response relationships to quantify fomite-mediated transmission risk in indoor environments.",
+      "tags": ["surfaces", "infection", "modelling"],
+      "featured": true,
+      "badge": "Editor's Choice",
+      "citations": 67,
+      "openAccess": true
+    },
+    {
+      "id": "king-2021-lbm",
+      "title": "Lattice Boltzmann simulation of airflow and particle transport in complex hospital geometries",
+      "authors": [
+        { "name": "King, M-F.", "self": true },
+        { "name": "Sleigh, P.A." },
+        { "name": "Noakes, C.J." },
+        { "name": "Beggs, C.B." }
+      ],
+      "year": 2021,
+      "journal": "Journal of Computational Physics",
+      "volume": "445",
+      "pages": "110580",
+      "doi": "10.1016/j.jcp.2021.110580",
+      "pdf": "papers/king_2021_lbm.pdf",
+      "image": null,
+      "abstract": "Traditional CFD methods face computational challenges when simulating transient airflow in complex indoor geometries with moving boundaries. This paper presents a GPU-accelerated lattice Boltzmann method coupled with Lagrangian particle tracking for efficient simulation of respiratory aerosol transport in hospital environments.",
+      "tags": ["cfd", "modelling"],
+      "featured": false,
+      "citations": 89,
+      "openAccess": false
+    },
+    {
+      "id": "edwards-2020-ventilation",
+      "title": "The role of ventilation in controlling SARS-CoV-2 transmission: A systematic review",
+      "authors": [
+        { "name": "Edwards, A." },
+        { "name": "King, M-F.", "self": true },
+        { "name": "Noakes, C.J." },
+        { "name": "Sleigh, P.A." }
+      ],
+      "year": 2020,
+      "journal": "Building and Environment",
+      "volume": "184",
+      "pages": "107229",
+      "doi": "10.1016/j.buildenv.2020.107229",
+      "pdf": "papers/edwards_2020_ventilation.pdf",
+      "image": "images/publications/edwards_2020_ventilation.jpg",
+      "abstract": "This systematic review synthesizes evidence on the relationship between ventilation rates and respiratory infection transmission in indoor environments. Analysis of 47 studies spanning healthcare, educational, and residential settings reveals a consistent inverse relationship between ventilation rate and infection incidence.",
+      "tags": ["ventilation", "infection", "review"],
+      "featured": false,
+      "citations": 234,
+      "openAccess": true
+    }
+  ],
+  "filterCategories": [
+    { "id": "all", "label": "All" },
+    { "id": "featured", "label": "⭐ Featured" },
+    { "id": "infection", "label": "Infection" },
+    { "id": "cfd", "label": "CFD" },
+    { "id": "ventilation", "label": "Ventilation" },
+    { "id": "surfaces", "label": "Surfaces" }
+  ]
+}
