@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Torneo Escolar ⚽ Mundial 2026</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #071a0e;
+  background-image: radial-gradient(ellipse at top, #1a472a 0%, #071a0e 65%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* ── HEADER ── */
+header {
+  text-align: center;
+  padding: 2rem 1rem 1.2rem;
+  border-bottom: 2px solid #2d7a3a;
+}
+header h1 {
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+header p { color: #7ec87e; font-size: 0.85rem; margin-top: 0.4rem; }
+
+/* ── ROUND NAV ── */
+.rounds-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem 0.5rem;
+  flex-wrap: wrap;
+}
+.round-btn {
+  padding: 0.45rem 1rem;
+  border: 2px solid #2d7a3a;
+  background: transparent;
+  color: #7ec87e;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.round-btn.active  { background: #2d7a3a; color: #fff; }
+.round-btn.done    { border-color: #ffd700; color: #ffd700; }
+.round-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.round-btn:not(:disabled):hover { background: #1a3d22; }
+
+/* ── MAIN CONTAINER ── */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+/* ── ROUND HEADER ── */
+.round-header {
+  text-align: center;
+  margin: 1.5rem 0 1rem;
+}
+.round-header h2 {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+.badge {
+  display: inline-block;
+  background: #1a3d22;
+  border: 1px solid #2d7a3a;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  color: #7ec87e;
+  margin-top: 0.5rem;
+}
+
+/* ── PROGRESS ── */
+.progress-wrap {
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+.progress-wrap span { font-size: 0.78rem; color: #7ec87e; }
+.progress-bar {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  height: 6px;
+  margin-top: 0.4rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2d7a3a, #4caf50);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+/* ── ACTION BUTTONS ── */
+.actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.btn-gold {
+  padding: 0.7rem 1.8rem;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #000;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+}
+.btn-gold:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(255,215,0,0.45);
+}
+.btn-gold:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.btn-green {
+  padding: 0.7rem 1.8rem;
+  background: transparent;
+  color: #7ec87e;
+  border: 2px solid #2d7a3a;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.btn-green:hover:not(:disabled) { background: #1a3d22; }
+.btn-green:disabled { opacity: 0.25; cursor: not-allowed; }
+
+/* ── MATCH GRID ── */
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 0.9rem;
+}
+
+/* ── MATCH CARD ── */
+.match-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.match-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2d7a3a, #4caf50);
+}
+.match-card.simulating::before {
+  background: linear-gradient(90deg, #ff6b35, #ffd700, #4caf50, #ff6b35);
+  background-size: 300% 100%;
+  animation: slide 0.7s linear infinite;
+}
+@keyframes slide {
+  0% { background-position: 0% 0; }
+  100% { background-position: 300% 0; }
+}
+.match-card.played { border-color: rgba(255,215,0,0.2); }
+
+.match-num {
+  font-size: 0.65rem;
+  color: #4a7a52;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.6rem;
+}
+
+/* ── TEAMS ROW ── */
+.teams-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.team {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+  min-width: 0;
+}
+.team.home { justify-content: flex-start; }
+.team.away { justify-content: flex-end; flex-direction: row-reverse; }
+
+.team.winner { background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.35); }
+.team.loser  { opacity: 0.38; }
+
+.flag { font-size: 1.7rem; line-height: 1; flex-shrink: 0; }
+.tname {
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── SCORES ── */
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72px;
+}
+.scores {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.sc {
+  font-size: 1.45rem;
+  font-weight: 900;
+  min-width: 24px;
+  text-align: center;
+}
+.sc.w { color: #ffd700; }
+.sc.l { color: #444; }
+.sep { color: #555; font-size: 1.1rem; }
+.vs  { color: #555; font-weight: 700; font-size: 0.85rem; }
+.pen {
+  font-size: 0.65rem;
+  color: #ff9800;
+  margin-top: 0.15rem;
+  white-space: nowrap;
+}
+
+/* ── SIM BUTTON ── */
+.sim-btn {
+  width: 100%;
+  margin-top: 0.7rem;
+  padding: 0.48rem;
+  background: linear-gradient(135deg, #1a3d22, #2d7a3a);
+  border: 1px solid #4caf50;
+  color: #fff;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.sim-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2d7a3a, #4caf50);
+  transform: translateY(-1px);
+}
+.sim-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.advance-label {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  color: #ffd700;
+}
+
+/* ── CHAMPION SCREEN ── */
+.champion-screen {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.trophy {
+  font-size: 5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  animation: bob 1s ease-in-out infinite alternate;
+}
+@keyframes bob {
+  from { transform: translateY(0) rotate(-5deg); }
+  to   { transform: translateY(-18px) rotate(5deg); }
+}
+.champion-screen .label {
+  font-size: 0.85rem;
+  color: #7ec87e;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  margin-bottom: 0.8rem;
+}
+.champion-flag { font-size: 4rem; margin: 0.8rem 0; }
+.champion-name {
+  font-size: 2.8rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.champion-screen .sub {
+  color: #7ec87e;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+}
+.btn-restart {
+  margin-top: 2rem;
+  padding: 0.9rem 2.5rem;
+  background: linear-gradient(135deg, #1a3d22, #2d7a3a);
+  color: #fff;
+  border: 2px solid #4caf50;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+}
+.btn-restart:hover {
+  background: linear-gradient(135deg, #2d7a3a, #4caf50);
+  transform: translateY(-2px);
+}
+
+/* ── CONFETTI ── */
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  opacity: 0;
+  animation: confetti-fall 3s ease-in forwards;
+  border-radius: 2px;
+}
+@keyframes confetti-fall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 520px) {
+  header h1 { font-size: 1.6rem; }
+  .matches-grid { grid-template-columns: 1fr; }
+  .tname { font-size: 0.72rem; }
+  .flag  { font-size: 1.35rem; }
+  .sc    { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚽ Torneo Escolar</h1>
+  <p>Mundial 2026 &nbsp;•&nbsp; 3 jugadores por equipo &nbsp;•&nbsp; 3 minutos por partido &nbsp;•&nbsp; El ganador se queda en el campo</p>
+</header>
+
+<div class="rounds-nav" id="roundsNav"></div>
+
+<div class="container" id="mainContent"></div>
+
+<script>
+// ── DATOS ──────────────────────────────────────────────────────────────────
+const TEAMS = [
+  { name:"Argentina",      flag:"🇦🇷" },
+  { name:"Brasil",         flag:"🇧🇷" },
+  { name:"Francia",        flag:"🇫🇷" },
+  { name:"España",         flag:"🇪🇸" },
+  { name:"Alemania",       flag:"🇩🇪" },
+  { name:"Portugal",       flag:"🇵🇹" },
+  { name:"Inglaterra",     flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+  { name:"Países Bajos",   flag:"🇳🇱" },
+  { name:"Uruguay",        flag:"🇺🇾" },
+  { name:"Colombia",       flag:"🇨🇴" },
+  { name:"México",         flag:"🇲🇽" },
+  { name:"Estados Unidos", flag:"🇺🇸" },
+  { name:"Canadá",         flag:"🇨🇦" },
+  { name:"Marruecos",      flag:"🇲🇦" },
+  { name:"Senegal",        flag:"🇸🇳" },
+  { name:"Japón",          flag:"🇯🇵" },
+  { name:"Corea del Sur",  flag:"🇰🇷" },
+  { name:"Australia",      flag:"🇦🇺" },
+  { name:"Croacia",        flag:"🇭🇷" },
+  { name:"Bélgica",        flag:"🇧🇪" },
+  { name:"Suiza",          flag:"🇨🇭" },
+  { name:"Dinamarca",      flag:"🇩🇰" },
+  { name:"Polonia",        flag:"🇵🇱" },
+  { name:"Serbia",         flag:"🇷🇸" },
+  { name:"Ecuador",        flag:"🇪🇨" },
+  { name:"Venezuela",      flag:"🇻🇪" },
+  { name:"Irán",           flag:"🇮🇷" },
+  { name:"Arabia Saudita", flag:"🇸🇦" },
+  { name:"Nigeria",        flag:"🇳🇬" },
+  { name:"Camerún",        flag:"🇨🇲" },
+  { name:"Egipto",         flag:"🇪🇬" },
+  { name:"Nueva Zelanda",  flag:"🇳🇿" }
+];
+
+const ROUND_NAMES = [
+  "16avos de Final",
+  "Octavos de Final",
+  "Cuartos de Final",
+  "Semifinales",
+  "Gran Final"
+];
+
+// ── ESTADO ─────────────────────────────────────────────────────────────────
+let rounds = [];
+let viewRound = 0;
+
+// ── UTILIDADES ─────────────────────────────────────────────────────────────
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Distribución sesgada a goles bajos (3 min, 3vs3)
+function randGoals() {
+  const w = [0.22, 0.34, 0.24, 0.13, 0.07]; // 0,1,2,3,4
+  const r = Math.random();
+  let c = 0;
+  for (let i = 0; i < w.length; i++) { c += w[i]; if (r < c) return i; }
+  return 0;
+}
+
+function simMatch(t1, t2) {
+  let g1 = randGoals(), g2 = randGoals();
+  let pens = null;
+  let winner, loser;
+  if (g1 === g2) {
+    let p1, p2;
+    do { p1 = Math.floor(Math.random() * 6); p2 = Math.floor(Math.random() * 6); }
+    while (p1 === p2);
+    pens = { p1, p2 };
+    winner = p1 > p2 ? t1 : t2;
+    loser  = p1 > p2 ? t2 : t1;
+  } else {
+    winner = g1 > g2 ? t1 : t2;
+    loser  = g1 > g2 ? t2 : t1;
+  }
+  return { team1: t1, team2: t2, g1, g2, pens, winner, loser, played: true };
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+function initTournament() {
+  clearConfetti();
+  const teams = shuffle(TEAMS);
+  rounds = ROUND_NAMES.map(name => ({ name, matches: [] }));
+  // Llenar 16avos
+  for (let i = 0; i < 32; i += 2) {
+    rounds[0].matches.push({ team1: teams[i], team2: teams[i+1], played: false });
+  }
+  viewRound = 0;
+  renderNav();
+  renderRound(0);
+}
+
+// ── NAVEGACIÓN ─────────────────────────────────────────────────────────────
+function renderNav() {
+  document.getElementById('roundsNav').innerHTML = ROUND_NAMES.map((name, i) => {
+    const r = rounds[i];
+    const hasMatches = r && r.matches.length > 0;
+    const done = hasMatches && r.matches.every(m => m.played);
+    const accessible = hasMatches || i === viewRound;
+    return `<button
+      class="round-btn ${i === viewRound ? 'active' : ''} ${done ? 'done' : ''}"
+      onclick="renderRound(${i})"
+      ${!accessible ? 'disabled' : ''}
+    >${name}</button>`;
+  }).join('');
+}
+
+// ── RENDER RONDA ───────────────────────────────────────────────────────────
+function renderRound(idx) {
+  if (!rounds[idx] || rounds[idx].matches.length === 0) return;
+  viewRound = idx;
+  const round = rounds[idx];
+  const done  = round.matches.every(m => m.played);
+  const total = round.matches.length;
+  const comp  = round.matches.filter(m => m.played).length;
+  const pct   = total > 0 ? (comp / total * 100).toFixed(0) : 0;
+  const isFinal = idx === 4;
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="round-header">
+      <h2>${round.name}</h2>
+      <span class="badge">⏱ 3 min &nbsp;|&nbsp; 👥 3 jugadores &nbsp;|&nbsp; ${total} partido${total > 1 ? 's' : ''}</span>
+    </div>
+
+    <div class="progress-wrap">
+      <span>${comp} de ${total} partido${total > 1 ? 's' : ''} jugado${comp !== 1 ? 's' : ''}</span>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-gold" id="btnAll" onclick="simAll()" ${done ? 'disabled' : ''}>
+        ⚡ Simular Ronda Completa
+      </button>
+      <button class="btn-green" id="btnNext" onclick="advanceRound()"
+        ${!done ? 'disabled' : ''}>
+        ${isFinal ? '🏆 Ver Campeón' : 'Siguiente Ronda →'}
+      </button>
+    </div>
+
+    <div class="matches-grid" id="grid">
+      ${round.matches.map((m, i) => cardHTML(m, i, idx)).join('')}
+    </div>
+  `;
+  renderNav();
+}
+
+// ── TARJETA DE PARTIDO ─────────────────────────────────────────────────────
+function cardHTML(m, mi, ri) {
+  if (!m.team1) return '';
+  const w1 = m.played && m.winner === m.team1;
+  const w2 = m.played && m.winner === m.team2;
+
+  let centerHTML;
+  if (m.played) {
+    const c1 = w1 ? 'w' : 'l', c2 = w2 ? 'w' : 'l';
+    centerHTML = `
+      <div class="scores">
+        <span class="sc ${c1}">${m.g1}</span>
+        <span class="sep">-</span>
+        <span class="sc ${c2}">${m.g2}</span>
+      </div>
+      ${m.pens ? `<span class="pen">Pen: ${m.pens.p1}-${m.pens.p2}</span>` : ''}
+    `;
+  } else {
+    centerHTML = `<span class="vs">VS</span>`;
+  }
+
+  return `
+    <div class="match-card ${m.played ? 'played' : ''}" id="mc-${ri}-${mi}">
+      <div class="match-num">Partido ${mi + 1}</div>
+      <div class="teams-row">
+        <div class="team home ${m.played ? (w1 ? 'winner' : 'loser') : ''}">
+          <span class="flag">${m.team1.flag}</span>
+          <span class="tname">${m.team1.name}</span>
+        </div>
+        <div class="score-box">${centerHTML}</div>
+        <div class="team away ${m.played ? (w2 ? 'winner' : 'loser') : ''}">
+          <span class="tname">${m.team2.name}</span>
+          <span class="flag">${m.team2.flag}</span>
+        </div>
+      </div>
+      ${m.played
+        ? `<div class="advance-label">✓ ${m.winner.flag} ${m.winner.name} avanza</div>`
+        : `<button class="sim-btn" onclick="simOne(${ri},${mi})">▶ Jugar Partido</button>`
+      }
+    </div>
+  `;
+}
+
+// ── SIMULAR UN PARTIDO ─────────────────────────────────────────────────────
+async function simOne(ri, mi) {
+  const match = rounds[ri].matches[mi];
+  if (match.played) return;
+
+  const card = document.getElementById(`mc-${ri}-${mi}`);
+  if (card) {
+    card.classList.add('simulating');
+    const btn = card.querySelector('.sim-btn');
+    if (btn) { btn.disabled = true; btn.textContent = '⚽ Jugando…'; }
+  }
+
+  await delay(750);
+
+  rounds[ri].matches[mi] = simMatch(match.team1, match.team2);
+  renderRound(ri);
+}
+
+// ── SIMULAR TODA LA RONDA ──────────────────────────────────────────────────
+async function simAll() {
+  document.getElementById('btnAll').disabled = true;
+  const round = rounds[viewRound];
+
+  for (let i = 0; i < round.matches.length; i++) {
+    if (round.matches[i].played) continue;
+    const card = document.getElementById(`mc-${viewRound}-${i}`);
+    if (card) {
+      card.classList.add('simulating');
+      const btn = card.querySelector('.sim-btn');
+      if (btn) { btn.disabled = true; btn.textContent = '⚽ Jugando…'; }
+    }
+    await delay(220);
+    rounds[viewRound].matches[i] = simMatch(round.matches[i].team1, round.matches[i].team2);
+  }
+
+  renderRound(viewRound);
+}
+
+// ── AVANZAR RONDA ──────────────────────────────────────────────────────────
+function advanceRound() {
+  const round = rounds[viewRound];
+  if (!round.matches.every(m => m.played)) return;
+
+  const winners = round.matches.map(m => m.winner);
+
+  if (viewRound === 4) {
+    renderChampion(winners[0]);
+    return;
+  }
+
+  const nextIdx = viewRound + 1;
+  rounds[nextIdx].matches = [];
+  for (let i = 0; i < winners.length; i += 2) {
+    rounds[nextIdx].matches.push({ team1: winners[i], team2: winners[i+1], played: false });
+  }
+
+  viewRound = nextIdx;
+  renderNav();
+  renderRound(nextIdx);
+}
+
+// ── CAMPEÓN ────────────────────────────────────────────────────────────────
+function renderChampion(champ) {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="champion-screen">
+      <span class="trophy">🏆</span>
+      <p class="label">Campeón del Torneo</p>
+      <div class="champion-flag">${champ.flag}</div>
+      <div class="champion-name">${champ.name}</div>
+      <p class="sub">¡Ganadores del Torneo Escolar! 🎉</p>
+      <button class="btn-restart" onclick="initTournament()">🔄 Nuevo Torneo</button>
+    </div>
+  `;
+  launchConfetti();
+  renderNav();
+}
+
+// ── CONFETTI ───────────────────────────────────────────────────────────────
+const COLORS = ['#ffd700','#ff4136','#2ecc40','#0074d9','#ff69b4','#ff8c00','#7fdbff'];
+
+function launchConfetti() {
+  for (let i = 0; i < 80; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left        = Math.random() * 100 + 'vw';
+      el.style.background  = COLORS[Math.floor(Math.random() * COLORS.length)];
+      el.style.width       = (8 + Math.random() * 8) + 'px';
+      el.style.height      = (8 + Math.random() * 8) + 'px';
+      el.style.animationDuration = (2 + Math.random() * 2) + 's';
+      el.style.animationDelay    = Math.random() * 1.5 + 's';
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }, i * 40);
+  }
+}
+
+function clearConfetti() {
+  document.querySelectorAll('.confetti-piece').forEach(el => el.remove());
+}
+
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── ARRANCAR ───────────────────────────────────────────────────────────────
+initTournament();
+</script>
+</body>
+</html>
